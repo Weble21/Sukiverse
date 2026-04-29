@@ -1,40 +1,42 @@
 package com.example.Sukiverse.config
 
-import com.example.Sukiverse.auth.CustomOAuth2UserService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint
 
 @Configuration
 @EnableWebSecurity
-class SecurityConfig(
-    private val customOAuth2UserService: CustomOAuth2UserService,
-) {
+class SecurityConfig {
 
     @Bean
-    fun filterChain(http: HttpSecurity): SecurityFilterChain {
+    fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         http
-            .csrf { it.disable() }
             .authorizeHttpRequests { auth ->
-                auth
-                    .requestMatchers("/", "/login", "/oauth2/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                    .anyRequest().authenticated()
+                auth.requestMatchers("/", "/login/**", "/oauth2/**", "/images/**").permitAll()
+                auth.anyRequest().authenticated()
             }
             .oauth2Login { oauth2 ->
-                oauth2
-                    .loginPage("/login")
-                    .userInfoEndpoint { it.userService(customOAuth2UserService) }
-                    .defaultSuccessUrl("/", true)
-                    .failureUrl("/login?error=true")
+                oauth2.defaultSuccessUrl("/login/complete")
+            }
+            .headers { headers ->
+                headers.frameOptions { it.disable() }
+            }
+            .exceptionHandling { exceptions ->
+                exceptions.authenticationEntryPoint(LoginUrlAuthenticationEntryPoint("/login"))
+            }
+            .formLogin { form ->
+                form.successForwardUrl("/welcome")
             }
             .logout { logout ->
-                logout
-                    .logoutSuccessUrl("/")
-                    .invalidateHttpSession(true)
-                    .deleteCookies("JSESSIONID")
+                logout.logoutUrl("/logout")
+                logout.logoutSuccessUrl("/login")
+                logout.deleteCookies("JSESSIONID")
+                logout.invalidateHttpSession(true)
             }
+            .csrf { it.disable() }
 
         return http.build()
     }

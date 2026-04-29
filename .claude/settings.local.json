@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(./gradlew bootRun)"
+      "Bash(./gradlew bootRun)",
+      "Bash(rm \"C:/Users/Donggeon/Desktop/Sukiverse/src/main/kotlin/com/example/Sukiverse/domain/common/enums/Enums.kt\")",
+      "Bash(rm \"C:/Users/Donggeon/Desktop/Sukiverse/src/main/kotlin/com/example/Sukiverse/config/SwaggerConfig.kt\")",
+      "Bash(./gradlew compileKotlin)",
+      "PowerShell([System.Environment]::GetEnvironmentVariable\\(\"DB_USERNAME\", \"User\"\\); [System.Environment]::GetEnvironmentVariable\\(\"DB_PASSWORD\", \"User\"\\))"
     ]
   }
 }

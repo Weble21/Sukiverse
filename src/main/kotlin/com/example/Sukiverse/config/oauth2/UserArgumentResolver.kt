@@ -1,8 +1,8 @@
-package com.example.Sukiverse.auth
+package com.example.Sukiverse.config.oauth2
 
 import com.example.Sukiverse.domain.user.Provider
 
-data class OAuthAttributes(
+data class UserArgumentResolver(
     val provider: Provider,
     val providerId: String,
     val email: String,
@@ -10,7 +10,7 @@ data class OAuthAttributes(
     val profileImageUrl: String?,
 ) {
     companion object {
-        fun of(provider: String, attributes: Map<String, Any>): OAuthAttributes {
+        fun of(provider: String, attributes: Map<String, Any>): UserArgumentResolver {
             return when (provider) {
                 "google" -> ofGoogle(attributes)
                 "kakao"  -> ofKakao(attributes)
@@ -19,7 +19,7 @@ data class OAuthAttributes(
             }
         }
 
-        private fun ofGoogle(attr: Map<String, Any>) = OAuthAttributes(
+        private fun ofGoogle(attr: Map<String, Any>) = UserArgumentResolver(
             provider = Provider.GOOGLE,
             providerId = attr["sub"] as String,
             email = attr["email"] as String,
@@ -28,10 +28,10 @@ data class OAuthAttributes(
         )
 
         @Suppress("UNCHECKED_CAST")
-        private fun ofKakao(attr: Map<String, Any>): OAuthAttributes {
+        private fun ofKakao(attr: Map<String, Any>): UserArgumentResolver {
             val account = attr["kakao_account"] as Map<String, Any>
             val profile = account["profile"] as Map<String, Any>
-            return OAuthAttributes(
+            return UserArgumentResolver(
                 provider = Provider.KAKAO,
                 providerId = attr["id"].toString(),
                 email = account["email"] as String,
@@ -41,9 +41,9 @@ data class OAuthAttributes(
         }
 
         @Suppress("UNCHECKED_CAST")
-        private fun ofNaver(attr: Map<String, Any>): OAuthAttributes {
+        private fun ofNaver(attr: Map<String, Any>): UserArgumentResolver {
             val response = attr["response"] as Map<String, Any>
-            return OAuthAttributes(
+            return UserArgumentResolver(
                 provider = Provider.NAVER,
                 providerId = response["id"] as String,
                 email = response["email"] as String,

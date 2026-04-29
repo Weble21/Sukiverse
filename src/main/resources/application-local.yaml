@@ -1,0 +1,18 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          naver:
+            redirect-uri: "http://localhost:8080/login/oauth2/code/naver"
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/sukiverseDB
+    username: admin
+    password: password
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
