@@ -1,23 +1,4 @@
 spring:
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            client-id: ${GOOGLE_CLIENT_ID}
-            client-secret: ${GOOGLE_CLIENT_SECRET}
-            redirect-uri: "http://localhost:8080/login/oauth2/code/google"
-
-          kakao:
-            client-id: ${KAKAO_CLIENT_ID}
-            client-secret: ${KAKAO_CLIENT_SECRET}
-            redirect-uri: "http://localhost:8080/login/oauth2/code/kakao"
-
-          naver:
-            client-id: ${NAVER_CLIENT_ID}
-            client-secret: ${NAVER_CLIENT_SECRET}
-            redirect-uri: "http://localhost:8080/login/oauth2/code/naver"
-
   datasource:
     url: jdbc:postgresql://localhost:5432/sukiverseDB
     username: admin
@@ -28,3 +9,21 @@ spring:
     hibernate:
       ddl-auto: create-drop
     show-sql: true
+
+jwt:
+  secret: ${JWT_SECRET:local-dev-secret-key-for-testing-only-minimum-32-chars}
+
+oauth2:
+  providers:
+    google:
+      client-id: ${GOOGLE_CLIENT_ID}
+      client-secret: ${GOOGLE_CLIENT_SECRET}
+      redirect-uri: ${GOOGLE_REDIRECT_URI:http://localhost:3000/oauth2/callback/google}
+    kakao:
+      client-id: ${KAKAO_CLIENT_ID}
+      client-secret: ${KAKAO_CLIENT_SECRET}
+      redirect-uri: ${KAKAO_REDIRECT_URI:http://localhost:3000/oauth2/callback/kakao}
+    naver:
+      client-id: ${NAVER_CLIENT_ID}
+      client-secret: ${NAVER_CLIENT_SECRET}
+      redirect-uri: ${NAVER_REDIRECT_URI:http://localhost:3000/oauth2/callback/naver}
