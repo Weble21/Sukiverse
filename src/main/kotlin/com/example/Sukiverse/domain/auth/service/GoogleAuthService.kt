@@ -11,6 +11,7 @@ import com.example.Sukiverse.interfaces.OAuthServiceInterface
 import com.fasterxml.jackson.annotation.JsonProperty
 import okhttp3.FormBody
 import org.springframework.stereotype.Service
+import java.net.URLDecoder
 
 private const val PROVIDER = "google"
 
@@ -28,7 +29,7 @@ class GoogleAuthService(
 
     override fun getToken(code: String): OAuth2TokenResponse {
         val body = FormBody.Builder()
-            .add("code", code)
+            .add("code", URLDecoder.decode(code, "UTF-8"))
             .add("client_id", oAuthInfo.clientId)
             .add("client_secret", oAuthInfo.clientSecret)
             .add("redirect_uri", oAuthInfo.redirectUri)

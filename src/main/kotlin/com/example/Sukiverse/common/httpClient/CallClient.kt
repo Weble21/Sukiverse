@@ -16,7 +16,9 @@ class CallClient(private val httpClient: OkHttpClient) {
             .build()
 
         return httpClient.newCall(request).execute().use { response ->
-            response.body?.string() ?: error("Empty response body from $url")
+            val body = response.body?.string() ?: error("Empty response body from $url")
+            if (!response.isSuccessful) error("OAuth provider error (${response.code}): $body")
+            body
         }
     }
 
@@ -28,7 +30,9 @@ class CallClient(private val httpClient: OkHttpClient) {
             .build()
 
         return httpClient.newCall(request).execute().use { response ->
-            response.body?.string() ?: error("Empty response body from $url")
+            val body = response.body?.string() ?: error("Empty response body from $url")
+            if (!response.isSuccessful) error("OAuth provider error (${response.code}): $body")
+            body
         }
     }
 }
