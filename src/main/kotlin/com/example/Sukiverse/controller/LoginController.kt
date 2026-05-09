@@ -13,9 +13,6 @@ class LoginController {
     @GetMapping("/login")
     fun login() = "login"
 
-    @GetMapping("/login/complete")
-    fun loginComplete() = "redirect:/welcome"
-
     @GetMapping("/welcome")
     @ResponseBody
     fun welcome() = "Hello! Social Login!!"

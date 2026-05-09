@@ -1,5 +1,6 @@
 package com.example.Sukiverse.config
 
+import com.example.Sukiverse.config.oauth2.CustomOAuth2UserService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -9,7 +10,9 @@ import org.springframework.security.web.authentication.LoginUrlAuthenticationEnt
 
 @Configuration
 @EnableWebSecurity
-class SecurityConfig {
+class SecurityConfig(
+    private val customOAuth2UserService: CustomOAuth2UserService,
+) {
 
     @Bean
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
@@ -19,16 +22,11 @@ class SecurityConfig {
                 auth.anyRequest().authenticated()
             }
             .oauth2Login { oauth2 ->
-                oauth2.defaultSuccessUrl("/login/complete")
-            }
-            .headers { headers ->
-                headers.frameOptions { it.disable() }
+                oauth2.userInfoEndpoint { it.userService(customOAuth2UserService) }
+                oauth2.defaultSuccessUrl("/welcome")
             }
             .exceptionHandling { exceptions ->
                 exceptions.authenticationEntryPoint(LoginUrlAuthenticationEntryPoint("/login"))
-            }
-            .formLogin { form ->
-                form.successForwardUrl("/welcome")
             }
             .logout { logout ->
                 logout.logoutUrl("/logout")

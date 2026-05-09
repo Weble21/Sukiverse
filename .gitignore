@@ -43,3 +43,6 @@ out/
 ### Env ###
 .env
 *.env
+
+### Local config (credentials) ###
+src/main/resources/application-local.yaml
