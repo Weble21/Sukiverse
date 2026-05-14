@@ -53,7 +53,7 @@ class KakaoAuthService(
             "https://kapi.kakao.com/v2/user/me",
             mapOf("Authorization" to "Bearer $accessToken"),
         )
-        return JsonUtil.decodeFromJson<KakaoUserResponse>(json)
+        return JsonUtil.decodeFromJson<KakaoUserResponse>(json).toOAuth2UserResponse()
     }
 }
 
@@ -68,11 +68,13 @@ data class KakaoTokenResult(override val accessToken: String) : OAuth2TokenRespo
 data class KakaoUserResponse(
     @JsonProperty("id") val kakaoId: Long,
     @JsonProperty("kakao_account") val kakaoAccount: KakaoAccount? = null,
-) : OAuth2UserResponse {
-    override val id: String get() = kakaoId.toString()
-    override val email: String? get() = kakaoAccount?.email
-    override val name: String? get() = kakaoAccount?.profile?.nickname
-    override val profileImage: String? get() = kakaoAccount?.profile?.profileImageUrl
+)  {
+    fun toOAuth2UserResponse() : OAuth2UserResponse = object : OAuth2UserResponse {
+        override val id: String get() = kakaoId.toString()
+        override val email: String? get() = kakaoAccount?.email
+        override val name: String? get() = kakaoAccount?.profile?.nickname
+        override val profileImage: String? get() = kakaoAccount?.profile?.profileImageUrl
+    }
 }
 
 data class KakaoAccount(
