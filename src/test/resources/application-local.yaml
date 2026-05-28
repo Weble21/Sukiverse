@@ -1,0 +1,45 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+spring:
+    datasource:
+      url: jdbc:postgresql://localhost:5432/sukiverseDB
+      username: ${DB_USERNAME}
+      password: ${DB_PASSWORD}
+      driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: false
+
+  sql:
+    init:
+      mode: never
+
+
+
+jwt:
+  secret: local-dev-secret-key-for-testing-only-minimum-32-chars
+  expiration: 3600000
+  refresh-expiration: 2592000000
+
+oauth2:
+  providers:
+    google:
+      client-id: dummy-google-id
+      client-secret: dummy-google-secret
+      redirect-uri: http://localhost:8080/login/oauth2/code/google
+    kakao:
+      client-id: dummy-kakao-id
+      client-secret: dummy-kakao-secret
+      redirect-uri: http://localhost:8080/login/oauth2/code/kakao
+    naver:
+      client-id: dummy-naver-id
+      client-secret: dummy-naver-secret
+      redirect-uri: http://localhost:8080/login/oauth2/code/naver
