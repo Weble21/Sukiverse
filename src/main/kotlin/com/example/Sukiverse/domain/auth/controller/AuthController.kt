@@ -5,6 +5,8 @@ import com.example.Sukiverse.domain.auth.service.UserDetailsDto
 import com.example.Sukiverse.exception.CustomException
 import com.example.Sukiverse.exception.ErrorCode
 import com.example.Sukiverse.types.dto.ApiResponse
+import io.swagger.v3.oas.annotations.Hidden
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.ResponseCookie
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.CookieValue
@@ -18,6 +20,7 @@ import java.time.Duration
 @RequestMapping("/api/v1/auth")
 class AuthController(
     private val authService: AuthService,
+    @Value("\${app.cookie.secure:true}") private val secureCookie: Boolean,
 ) {
     @PostMapping("/login")
     fun login(@RequestBody request: AuthRequest): ResponseEntity<ApiResponse<LoginApiResponse>> {
@@ -26,7 +29,7 @@ class AuthController(
 
             val refreshCookie = ResponseCookie.from("refreshToken", result.refreshToken)
                 .httpOnly(true)
-                .secure(true)
+                .secure(secureCookie)
                 .path("/api/v1/auth/refresh")
                 .maxAge(Duration.ofDays(30))
                 .sameSite("Strict")
@@ -47,6 +50,7 @@ class AuthController(
         }
     }
 
+    @Hidden
     @PostMapping("/refresh")
     fun refresh(
         @CookieValue(name = "refreshToken", required = false) refreshToken: String?,

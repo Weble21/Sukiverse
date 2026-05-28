@@ -40,7 +40,7 @@ class WebSecurity(
         config.allowedOriginPatterns = listOf("*")
         config.allowedHeaders = listOf("*")
         config.allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "OPTIONS")
-        config.allowCredentials = false
+        config.allowCredentials = true
 
         val source = UrlBasedCorsConfigurationSource()
         source.registerCorsConfiguration("/**", config)

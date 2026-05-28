@@ -5,7 +5,11 @@
       "Bash(rm \"C:/Users/Donggeon/Desktop/Sukiverse/src/main/kotlin/com/example/Sukiverse/domain/common/enums/Enums.kt\")",
       "Bash(rm \"C:/Users/Donggeon/Desktop/Sukiverse/src/main/kotlin/com/example/Sukiverse/config/SwaggerConfig.kt\")",
       "Bash(./gradlew compileKotlin)",
-      "PowerShell([System.Environment]::GetEnvironmentVariable\\(\"DB_USERNAME\", \"User\"\\); [System.Environment]::GetEnvironmentVariable\\(\"DB_PASSWORD\", \"User\"\\))"
+      "PowerShell([System.Environment]::GetEnvironmentVariable\\(\"DB_USERNAME\", \"User\"\\); [System.Environment]::GetEnvironmentVariable\\(\"DB_PASSWORD\", \"User\"\\))",
+      "PowerShell(cd \"C:\\\\Users\\\\Donggeon\\\\Desktop\\\\Sukiverse\"; $env:GOOGLE_CLIENT_ID=\"dummy\"; $env:GOOGLE_CLIENT_SECRET=\"dummy\"; $env:KAKAO_CLIENT_ID=\"dummy\"; $env:KAKAO_CLIENT_SECRET=\"dummy\"; $env:NAVER_CLIENT_ID=\"dummy\"; $env:NAVER_CLIENT_SECRET=\"dummy\"; $env:JWT_SECRET=\"local-dev-secret-key-for-testing-only-minimum-32-chars\"; .\\\\gradlew.bat test --tests \"com.example.Sukiverse.SukiverseApplicationTests\" --info 2>&1 | Select-Object -Last 80)",
+      "PowerShell(cd \"C:\\\\Users\\\\Donggeon\\\\Desktop\\\\Sukiverse\"; $env:GOOGLE_CLIENT_ID=\"dummy\"; $env:GOOGLE_CLIENT_SECRET=\"dummy\"; $env:KAKAO_CLIENT_ID=\"dummy\"; $env:KAKAO_CLIENT_SECRET=\"dummy\"; $env:NAVER_CLIENT_ID=\"dummy\"; $env:NAVER_CLIENT_SECRET=\"dummy\"; $env:JWT_SECRET=\"local-dev-secret-key-for-testing-only-minimum-32-chars\"; .\\\\gradlew.bat build -x test 2>&1 | Select-Object -Last 30)",
+      "PowerShell(Start-Process \"C:\\\\Program Files\\\\Docker\\\\Docker\\\\Docker Desktop.exe\"; Start-Sleep -Seconds 3; Write-Output \"Docker Desktop 시작 요청됨\")",
+      "PowerShell($maxWait = 60; $waited = 0; while \\($waited -lt $maxWait\\) { $result = docker ps 2>&1; if \\($LASTEXITCODE -eq 0\\) { Write-Output \"Docker 준비 완료\"; break }; Start-Sleep -Seconds 5; $waited += 5; Write-Output \"대기 중... ${waited}초\" })"
     ]
   }
 }
