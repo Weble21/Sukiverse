@@ -38,6 +38,19 @@ class JwtProvider(
             .compact()
     }
 
+    fun getSubject(token: String): String {
+        return try {
+            Jwts.parser()
+                .verifyWith(key)
+                .build()
+                .parseSignedClaims(token)
+                .payload
+                .subject
+        } catch (e: JwtException) {
+            throw CustomException(ErrorCode.REFRESH_TOKEN_INVALID)
+        }
+    }
+
     fun verifyToken(token: String) {
         try {
             Jwts.parser()

@@ -16,4 +16,6 @@ enum class ErrorCode(
     TOKEN_IS_INVALID(401, "AUTH_104", "token invalid"),
     TOKEN_IS_EXPIRED(401, "AUTH_105", "token expired"),
     ACCESS_TOKEN_NEED(401, "AUTH_118", "access token needed"),
+    REFRESH_TOKEN_NOT_FOUND(401, "AUTH_119", "refresh token not found"),
+    REFRESH_TOKEN_INVALID(401, "AUTH_120", "refresh token invalid"),
 }

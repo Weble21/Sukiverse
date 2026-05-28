@@ -18,7 +18,7 @@ data class UserDetailsDto(
 
 data class LoginResponse(
     val accessToken: String,
-    val refreshToken: String,
+    val refreshToken: String,  // 컨트롤러에서 HttpOnly 쿠키로 전달, 응답 바디에는 포함하지 않음
     val userDetails: UserDetailsDto,
 )
 
@@ -68,6 +68,21 @@ class AuthService(
                 isOnboardingCompleted = user.isOnboardingCompleted,
             ),
         )
+    }
+
+    @Transactional
+    fun refreshAccessToken(refreshToken: String): String {
+        val ulid = jwtProvider.getSubject(refreshToken)
+        val user = authUserRepository.findById(ulid)
+            .orElseThrow { CustomException(ErrorCode.REFRESH_TOKEN_INVALID) }
+
+        if (user.refreshToken != refreshToken) {
+            throw CustomException(ErrorCode.REFRESH_TOKEN_INVALID)
+        }
+
+        val newAccessToken = jwtProvider.createToken(user.provider, user.email, user.nickname, user.ulid)
+        user.accessToken = newAccessToken
+        return newAccessToken
     }
 
     fun verifyToken(authorization: String) {
