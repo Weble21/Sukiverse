@@ -85,6 +85,18 @@ class AuthService(
         return newAccessToken
     }
 
+    fun getMe(authorization: String): UserDetailsDto {
+        val token = authorization.removePrefix("Bearer ")
+        val ulid = jwtProvider.getUserId(token)
+        val user = authUserRepository.findById(ulid)
+            .orElseThrow { CustomException(ErrorCode.TOKEN_IS_INVALID) }
+        return UserDetailsDto(
+            id = user.ulid,
+            profileImage = user.profileImage,
+            isOnboardingCompleted = user.isOnboardingCompleted,
+        )
+    }
+
     fun verifyToken(authorization: String) {
         jwtProvider.verifyToken(authorization.removePrefix("Bearer "))
     }

@@ -23,6 +23,7 @@ class JWTFilter(
     private val JWT_AUTH_ENDPOINTS = arrayOf(
         "/api/v1/bank/**",
         "/api/v1/history/**",
+        "/api/v1/auth/me",
     )
 
     override fun doFilterInternal(

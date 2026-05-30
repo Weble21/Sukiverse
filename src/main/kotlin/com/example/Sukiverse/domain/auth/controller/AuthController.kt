@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.ResponseCookie
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.CookieValue
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import java.time.Duration
@@ -47,6 +49,23 @@ class AuthController(
         } catch (e: Exception) {
             ResponseEntity.badRequest()
                 .body(ApiResponse.error(ErrorCode.PROVIDER_NOT_FOUND.errorCode, e.message ?: "로그인 실패"))
+        }
+    }
+
+    @GetMapping("/me")
+    fun me(
+        @RequestHeader("Authorization", required = false) authorization: String?,
+    ): ResponseEntity<ApiResponse<UserDetailsDto>> {
+        if (authorization == null) {
+            return ResponseEntity.status(401)
+                .body(ApiResponse.error(ErrorCode.ACCESS_TOKEN_NEED.errorCode, ErrorCode.ACCESS_TOKEN_NEED.message))
+        }
+        return try {
+            val userDetails = authService.getMe(authorization)
+            ResponseEntity.ok(ApiResponse.success(userDetails))
+        } catch (e: CustomException) {
+            ResponseEntity.status(e.getHttpStatus())
+                .body(ApiResponse.error(e.getErrorCode(), e.message ?: e.getCodeInterface().message))
         }
     }
 

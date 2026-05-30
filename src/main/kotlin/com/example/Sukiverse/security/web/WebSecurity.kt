@@ -25,7 +25,7 @@ class WebSecurity(
             .oauth2Login { it.disable() }
             .cors { it.configurationSource(corsConfigurationSource()) }
             .authorizeHttpRequests { auth ->
-                auth.requestMatchers("/api/v1/auth/**").permitAll()
+                auth.requestMatchers("/api/v1/auth/login", "/api/v1/auth/refresh").permitAll()
                 auth.requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
                 auth.anyRequest().authenticated()
             }

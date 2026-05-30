@@ -51,6 +51,19 @@ class JwtProvider(
         }
     }
 
+    fun getUserId(token: String): String {
+        return try {
+            Jwts.parser()
+                .verifyWith(key)
+                .build()
+                .parseSignedClaims(token)
+                .payload
+                .subject
+        } catch (e: JwtException) {
+            throw CustomException(ErrorCode.TOKEN_IS_INVALID)
+        }
+    }
+
     fun verifyToken(token: String) {
         try {
             Jwts.parser()
