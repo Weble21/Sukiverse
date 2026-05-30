@@ -1,6 +1,10 @@
 server:
   port: ${PORT:8080}
 
+springdoc:
+  show-actuator: false
+  paths-to-match: /api/**
+
 spring:
   application:
     name: Sukiverse
