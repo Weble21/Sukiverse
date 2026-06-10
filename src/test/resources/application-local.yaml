@@ -34,12 +34,12 @@ oauth2:
     google:
       client-id: dummy-google-id
       client-secret: dummy-google-secret
-      redirect-uri: http://localhost:8080/login/oauth2/code/google
+      redirect-uri: http://localhost:3000/login/oauth2/code/google
     kakao:
       client-id: dummy-kakao-id
       client-secret: dummy-kakao-secret
-      redirect-uri: http://localhost:8080/login/oauth2/code/kakao
+      redirect-uri: http://localhost:3000/login/oauth2/code/kakao
     naver:
       client-id: dummy-naver-id
       client-secret: dummy-naver-secret
-      redirect-uri: http://localhost:8080/login/oauth2/code/naver
+      redirect-uri: http://localhost:3000/login/oauth2/code/naver
