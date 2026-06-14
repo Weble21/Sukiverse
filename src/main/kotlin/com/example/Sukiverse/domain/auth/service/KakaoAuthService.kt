@@ -27,6 +27,8 @@ class KakaoAuthService(
     override val providerName = PROVIDER
 
     override fun getToken(code: String): OAuth2TokenResponse {
+        println(">>> Kakao redirect_uri: ${oAuthInfo.redirectUri}")
+
         val body = FormBody.Builder()
             .add("code", code)
             .add("client_id", oAuthInfo.clientId)

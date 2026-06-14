@@ -27,6 +27,7 @@ class WebSecurity(
             .authorizeHttpRequests { auth ->
                 auth.requestMatchers("/api/v1/auth/login", "/api/v1/auth/refresh").permitAll()
                 auth.requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
+                auth.requestMatchers("/login/oauth2/code/**").permitAll()
                 auth.anyRequest().authenticated()
             }
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter::class.java)

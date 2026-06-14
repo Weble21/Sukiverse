@@ -18,4 +18,6 @@ enum class ErrorCode(
     ACCESS_TOKEN_NEED(401, "AUTH_118", "access token needed"),
     REFRESH_TOKEN_NOT_FOUND(401, "AUTH_119", "refresh token not found"),
     REFRESH_TOKEN_INVALID(401, "AUTH_120", "refresh token invalid"),
+
+    ANIME_NOT_FOUND(404, "ANIME_001", "anime not found"),
 }
