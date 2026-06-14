@@ -10,9 +10,11 @@ import com.example.Sukiverse.interfaces.OAuth2UserResponse
 import com.example.Sukiverse.interfaces.OAuthServiceInterface
 import com.fasterxml.jackson.annotation.JsonProperty
 import okhttp3.FormBody
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
 private const val PROVIDER = "kakao"
+private val log = LoggerFactory.getLogger("KakaoAuthService")
 
 @Service(PROVIDER)
 class KakaoAuthService(
@@ -27,7 +29,7 @@ class KakaoAuthService(
     override val providerName = PROVIDER
 
     override fun getToken(code: String): OAuth2TokenResponse {
-        println(">>> Kakao redirect_uri: ${oAuthInfo.redirectUri}")
+        log.info(">>> Kakao redirect_uri: ${oAuthInfo.redirectUri}")
 
         val body = FormBody.Builder()
             .add("code", code)
