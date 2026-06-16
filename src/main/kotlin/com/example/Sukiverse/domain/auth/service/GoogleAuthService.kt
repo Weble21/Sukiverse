@@ -16,7 +16,7 @@ import java.net.URLDecoder
 private const val PROVIDER = "google"
 
 @Service(PROVIDER)
-class GoogleAuthService(
+class GoogleAuthService(dock
     private val config: OAuth2Config,
     private val httpClient: CallClient,
 ) : OAuthServiceInterface {

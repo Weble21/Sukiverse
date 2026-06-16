@@ -71,4 +71,17 @@ class AnimeController(
             ResponseEntity.status(e.getHttpStatus())
                 .body(ApiResponse.error<Nothing>(e.getErrorCode(), e.message ?: e.getCodeInterface().message))
         }
+
+    @PostMapping("/sync/top")
+    fun syncTop(): ResponseEntity<*> =
+        try {
+            animeService.syncTop100()
+            ResponseEntity.ok(ApiResponse.success(null))
+        } catch (e: CustomException) {
+            ResponseEntity.status(e.getHttpStatus())
+                .body(ApiResponse.error<Nothing>(e.getErrorCode(), e.message ?: e.getCodeInterface().message))
+        } catch (e: Exception) {
+            ResponseEntity.internalServerError()
+                .body(ApiResponse.error<Nothing>("JIKAN_SYNC_FAILED", e.message ?: "Jikan sync failed"))
+        }
 }
