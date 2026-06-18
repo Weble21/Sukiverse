@@ -7,6 +7,5 @@ interface AnimeRepository : JpaRepository<Anime, Long> {
     fun findByTitle(title: String): Anime?
     fun findByGenre(genre: String): List<Anime>
     fun findAllByOrderByRankAsc(): List<Anime>
-    fun findAllByOrderByYearDesc(): List<Anime>
     fun findAllByOrderByScoreDesc(): List<Anime>
 }
