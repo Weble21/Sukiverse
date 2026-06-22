@@ -1,0 +1,6 @@
+# 프로덕션 실행용 Dockerfile (빌드는 로컬에서 수행, 여기선 jar만 실행 → t3.micro 메모리 안전)
+FROM eclipse-temurin:17-jre-jammy
+WORKDIR /app
+COPY app.jar app.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "app.jar"]
