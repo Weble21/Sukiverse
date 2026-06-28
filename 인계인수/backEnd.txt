@@ -1,0 +1,32 @@
+[Core]
+Kotlin 1.9 + SpringBoot 4.0.3
+Redis 7.2.x - ElastiCache
+Kafka(추후 사용 여부 결정 예정)
+AWS (EC2 + ElastiCache)
+Docker
+
+[DB]
+MongoDB 6.x
+MongoDB Atlas free
+ * 구조
+<User>
+   ↓
+<CloudFront>
+   ↓
+<ALB / NAT Gateway> - Public Subnet
+   ↓
+<EC2> - Private Subnet
+   ↓
+<Mongo Atlas / Redis>
+
+[Cloud]
+EC2
+ALB
+VPC + Private Subnet
+CloudWatch Logs
+CloudWatch Mertrics
+S3 + CloudFront
+
+[Auth]
+Spring Security + OAuth2 Client
+Server JWT

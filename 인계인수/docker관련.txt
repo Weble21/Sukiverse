@@ -1,0 +1,70 @@
+ RDS에서 확인할 것 (콘솔 → RDS → 데이터베이스 → 해당 인스턴스)                                                                                                    
+엔드포인트: sukiversedb.c1gqii66swfr.ap-northeast-2.rds.amazonaws.com                                                                                                         
+  포트: 5432                                                                                                                                                     
+  DB명: sukiverseDB
+  마스터 사용자 이름: postgres
+  마스터 비밀번호: 
+  EC2에서 확인할 것 (콘솔 → EC2 → 인스턴스)
+  퍼블릭 IP : 43.201.104.18 //재시작하면 바뀜 -> 탄력적 ip 허용해야 안 바뀌지만 비용 발생
+
+
+먼저 docker 띄우기
+# 올리기 (백그라운드)
+docker compose up -d
+
+# 내리기
+docker compose down
+
+# 재빌드 후 올리기
+docker compose up -d --build
+
+docker ps              # 실행 중인 컨테이너
+docker ps -a           # 모든 컨테이너
+docker logs <컨테이너명>   # 로그 확인
+
+docker 프로세스 강제종료 : taskkill /IM "Docker Desktop.exe" /F
+
+java -jar Sukiverse-0.0.1-SNAPSHOT.jar  로 실행
+
+oauth 인증할때 : code= 뒤에 키 복사해서 붙이면됨
+https://nid.naver.com/oauth2.0/authorize?client_id=meMO3u62cYYK1eLKRNkl&redirect_uri=http://localhost:3000/login/oauth2/code/naver&response_type=code&state=test
+
+https://kauth.kakao.com/oauth/authorize?client_id=77c1b42b48d6bdc148413b17dac46c17&redirect_uri=https://sukiverse.onrender.com/login/oauth2/code/kakao&response_type=code
+
+https://accounts.google.com/o/oauth2/v2/auth?client_id=881840231634-j35619vnk0hdvfg4fnol2e1c7dmpdsbq.apps.googleusercontent.com&redirect_uri=https://sukiverse.onrender.com/login/oauth2/code/google&response_type=code&scope=email%20profile
+
+db확인 명령어 (bash)
+docker exec -it sukiverse-db psql -U admin -d sukiverseDB -c "SELECT * FROM auth_users;"
+
+port kill 명령어
+# PID만 추출해서 바로 종료
+$pid = (netstat -ano | findstr :8080 | Select-String 'LISTENING' | ForEach-Object { $_.ToString().Trim().Split()[-1] } | Select-Object -First 1)
+taskkill /PID $pid /F
+
+1단계-포트 사용 중인 PID 조회
+netstat -ano | findstr :<포트번호>
+# 예시
+netstat -ano | findstr :8080
+
+2단계-PID 프로세스 종료
+taskkill /PID <PID번호> /F
+# 예시
+taskkill /PID 2492 /F
+
+● 실행 방법
+
+  코드 수정 후 재빌드할 때 (가장 자주 쓸 명령)
+  docker-compose up --build -d
+
+  처음 시작하거나 재시작할 때 (코드 변경 없을 때)
+  docker-compose up -d
+
+  중지할 때
+  docker-compose down
+
+  로그 볼 때
+  docker logs sukiverse-app -f
+
+  ---
+  주의: ./gradlew bootRun은 Docker가 8080을 쓰는 동안 실행하면 안됨
+ Docker가 올라가 있는 상태에서 로컬로도 띄우려 하면 포트 충돌 오류 발생

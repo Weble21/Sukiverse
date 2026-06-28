@@ -1,0 +1,9 @@
+-ssh로 ubuntu 접속하기-
+# 1) PowerShell에서 EC2 접속
+ssh -i "C:\Users\Donggeon\Desktop\AWS Cloud\suKey.pem" ubuntu@sukiverse.duckdns.org
+
+# 2) EC2 안에서 RDS 접속 (비번 입력)
+psql -h sukiversedb.c1gqii66swfr.ap-northeast-2.rds.amazonaws.com -U postgres -d sukiverseDB
+
+-- 3) 조회 (끝에 ; 필수)
+SELECT * FROM anime LIMIT 20;
